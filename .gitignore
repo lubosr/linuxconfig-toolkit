@@ -24,9 +24,9 @@ data/databases/*
 backup*.sql
 
 # CSV reports (too large for git)
-data/reports/
-data/reports/*.csv
-*.csv
+#data/reports/
+#data/reports/*.csv
+#*.csv
 
 # =============================================================================
 # PYTHON
