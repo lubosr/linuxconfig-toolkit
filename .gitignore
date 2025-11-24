@@ -1,0 +1,130 @@
+# =============================================================================
+# CREDENTIALS - NEVER COMMIT THESE
+# =============================================================================
+shared/config/credentials/
+shared/config/credentials/*
+*.json
+token.json
+*-key.json
+*.pem
+*.key
+.env
+.env.local
+
+# =============================================================================
+# DATABASE & DATA FILES
+# =============================================================================
+# Database data directory
+data/databases/
+data/databases/*
+
+# SQL dumps
+*.sql
+*.sql.gz
+backup*.sql
+
+# CSV reports (too large for git)
+data/reports/
+data/reports/*.csv
+*.csv
+
+# =============================================================================
+# PYTHON
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+wheels/
+pip-wheel-metadata/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =============================================================================
+# DOCKER
+# =============================================================================
+# Don't commit volumes
+docker-compose.override.yml
+
+# =============================================================================
+# IDE & EDITORS
+# =============================================================================
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# =============================================================================
+# OS FILES
+# =============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+.Trash-*
+
+# =============================================================================
+# LOGS & TEMPORARY FILES
+# =============================================================================
+*.log
+*.log.*
+logs/
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# =============================================================================
+# ARCHIVES
+# =============================================================================
+*.tar
+*.tar.gz
+*.zip
+*.rar
+
+# =============================================================================
+# KEEP THESE (exceptions to above rules)
+# =============================================================================
+# Keep directory structure with .gitkeep files
+!data/databases/.gitkeep
+!data/reports/.gitkeep
+!shared/config/credentials/.gitkeep
