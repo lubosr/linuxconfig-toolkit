@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Shared MariaDB for all toolkit data
+  mariadb:
+    image: mariadb:11
+    container_name: linuxconfig-toolkit-db
+    environment:
+      MYSQL_ROOT_PASSWORD: toolkit_root_2024!
+      MYSQL_DATABASE: linuxconfig_toolkit
+      MYSQL_USER: toolkit_user
+      MYSQL_PASSWORD: toolkit_pass_2024!
+    volumes:
+      - ./data/databases:/var/lib/mysql
+      - ./shared/config/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "3307:3306"  # Different port to avoid conflict with staging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Python script runner
+  script-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linuxconfig-script-runner
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/app/scripts
+      - ./shared:/app/shared
+      - ./data/reports:/app/reports
+    environment:
+      # Toolkit DB
+      TOOLKIT_DB_HOST: mariadb
+      TOOLKIT_DB_PORT: 3306
+      TOOLKIT_DB_NAME: linuxconfig_toolkit
+      TOOLKIT_DB_USER: toolkit_user
+      TOOLKIT_DB_PASSWORD: toolkit_pass_2024!
+      # WordPress staging DB
+      WP_DB_HOST: 192.168.100.3
+      WP_DB_PORT: 3306
+      WP_DB_NAME: wplinuxconfig
+      WP_DB_USER: wpuser
+      WP_DB_PASSWORD: wp2024secure!
+      WP_TABLE_PREFIX: wp_
+      # Timezone
+      TZ: UTC
+    profiles:
+      - manual  # Only runs when explicitly called
+    command: tail -f /dev/null  # Keep container alive for manual commands
+
+volumes:
+  mariadb_data:
