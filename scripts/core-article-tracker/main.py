@@ -316,14 +316,19 @@ class CoreArticleTracker:
         print("📊 CORE ARTICLES REPORT")
         print("=" * 80)
 
-        # All 30 articles
+        # All 30 articles with full details
         print("\n🏆 Top 30 Core Articles:\n")
 
         table_data = []
         for article in self.articles_data:
+            # Generate dev URL (full, no truncation)
+            dev_url = f"https://dev.linuxconfig.org{article['page_path']}" if article['page_path'] else 'N/A'
+
             table_data.append([
                 article['rank'],
-                article['page_path'][:60],
+                article['post_id'] or 'N/A',
+                article['post_title'][:50] if article['post_title'] else 'N/A',
+                dev_url,  # Full URL, no truncation
                 f"{article['score']:.0f}",
                 article['pageviews'],
                 article['clicks'],
@@ -333,7 +338,7 @@ class CoreArticleTracker:
 
         print(tabulate(
             table_data,
-            headers=['Rank', 'Page', 'Score', 'Views', 'Clicks', 'Pos', 'Days Old'],
+            headers=['#', 'ID', 'Title', 'Dev URL', 'Score', 'Views', 'Clicks', 'Pos', 'Days'],
             tablefmt='simple'
         ))
 
